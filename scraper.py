@@ -1,4 +1,3 @@
-from constants import *
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
@@ -9,7 +8,7 @@ import csv
 
 class ListingScraper:
     def __init__(self):
-        self.BRAND_URL = CAR_BRAND_URL
+        self.BRAND_URL = "https://www.ss.lv/lv/transport/cars/"
         self.driver = webdriver.Chrome()
         self.all_listing_data = []
         
