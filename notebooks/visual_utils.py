@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torch
+import torch.nn as nn
+import torch.optim as optim
 
 def plot_learning_curve(train_losses, test_losses, title='Learning Curve'):
     """
@@ -67,3 +69,37 @@ def init_model(weights, model_class):
     state_dict = torch.load(weights)
     model_eval.load_state_dict(state_dict)
     return model_eval
+
+
+def train_and_get_losses(learning_rate, batch_size, model, X_train, X_test, y_train, y_test):
+    train_losses , test_losses = [], []
+    learning_rate = 0.001
+    criterion = nn.MSELoss() 
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate) 
+
+    for epoch in range(100):
+        epoch_loss = 0.0
+        for i in range(0, len(X_train), batch_size):
+            batch_X = X_train[i:i+batch_size]
+            batch_y = y_train[i:i+batch_size]
+
+            optimizer.zero_grad()  
+            outputs = model(batch_X)  
+            loss = criterion(outputs, batch_y.view(-1, 1)) 
+
+            loss.backward()  
+            optimizer.step() 
+
+            epoch_loss += loss.item()
+
+        with torch.no_grad():
+            model.eval()
+            test_outputs = model(X_test)
+            loss = criterion(test_outputs, y_test.view(-1, 1))
+            model.train()
+
+        train_losses.append(epoch_loss / len(X_train))
+        test_losses.append(loss.item())
+        print(f'Epoch [{epoch + 1}/100], Training Loss: {train_losses[-1]}, Test Loss: {test_losses[-1]}')
+
+    return train_losses, test_losses
