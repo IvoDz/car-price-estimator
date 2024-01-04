@@ -28,7 +28,7 @@ def plot_learning_curve(train_losses, test_losses, title='Learning Curve'):
     plt.show()
     
     
-def transform_raw_input_to_df(brand, model, engine, year, mileage, df, sc):
+def transform_raw_input_to_df(brand, model, engine, age, mileage, df, sc):
     user_input = df.iloc[0].copy()
     user_input.loc[:] = 0
     user_input.drop('price', inplace=True)
@@ -39,24 +39,24 @@ def transform_raw_input_to_df(brand, model, engine, year, mileage, df, sc):
     user_input['engine_' + engine] = 1
     
     # Handling numericals 
-    scaled_nums = scale_numerical_input(year, mileage, sc)
+    scaled_nums = scale_numerical_input(age, mileage, sc)
     user_input["mileage"] = scaled_nums["mileage"]
-    user_input["year"] = scaled_nums["year"]
+    user_input["age"] = scaled_nums["age"]
     
     return user_input
 
 
 
-def scale_numerical_input(year, mileage, scaler):
+def scale_numerical_input(age, mileage, scaler):
     user_input = {
-        "year" : year,
+        "age" : age,
         "mileage" : mileage/1000
     }
     
     input_df = pd.DataFrame([user_input])
-    input_df_scaled = pd.DataFrame(scaler.transform(input_df), columns=["year", "mileage"])
+    input_df_scaled = pd.DataFrame(scaler.transform(input_df), columns=["age", "mileage"])
     res = input_df_scaled.to_numpy()
-    user_input["year"], user_input["mileage"] = res[0][0], res[0][1]
+    user_input["age"], user_input["mileage"] = res[0][0], res[0][1]
     return user_input
     
     
