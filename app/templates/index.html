@@ -1,11 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>Car Selection</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#brand').change(function(){
+                var selectedBrand = $(this).val();
+                $.getJSON('/get_models/' + selectedBrand, function(data){
+                    var modelSelect = $('#model');
+                    modelSelect.empty();
+                    $.each(data, function(key, value){
+                        modelSelect.append($('<option></option>').attr('value', value).text(value));
+                    });
+                });
+            });
+        });
+    </script>
 </head>
 <body>
-    <h1>Predict price of your car</h1>
+    <form>
+        <label for="brand">Brand:</label>
+        <select id="brand" name="brand" required>
+            <option value="">Select a Brand</option>
+            {% for brand in brands %}
+                <option value="{{ brand }}">{{ brand }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="model">Model:</label>
+        <select id="model" name="model" required>
+            <option value="">Select a brand first!</option>
+        </select>
+
+        <label for="engine">Engine:</label>
+        <select id="engine" name="engine" required>
+            <option value="">Select an Engine</option>
+            {% for engine in engines %}
+                <option value="{{ engine }}">{{ engine }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="year">Year:</label>
+        <input type="number" id="year" name="year" min="1900" max="2023" required>
+
+        <label for="mileage">Mileage:</label>
+        <input type="number" id="mileage" name="mileage" min="0" max="1500000" required> 
+        
+        <input type="submit" value="Predict!">
+    </form>
 </body>
 </html>
