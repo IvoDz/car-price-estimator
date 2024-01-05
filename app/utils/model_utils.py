@@ -1,7 +1,11 @@
 import pandas as pd
 import torch 
 import torch.nn as nn
+import joblib
 
+data = pd.read_csv('data/cleaned_data.csv')
+scaler = joblib.load('utils/scaler.save')
+    
 class NeuralNetwork(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super(NeuralNetwork, self).__init__()
@@ -20,18 +24,16 @@ class NeuralNetwork(nn.Module):
         return x
     
     
-def transform_raw_input_to_df(brand, model, engine, age, mileage, df, sc):
+def transform_raw_input_to_df(brand, model, engine, year, mileage, sc=scaler, df=data):
     user_input = df.iloc[0].copy()
     user_input.loc[:] = 0
     user_input.drop('price', inplace=True)
     
-    # Handling categoricals
     user_input['brand_' + brand] = 1
     user_input['model_' + model] = 1
     user_input['engine_' + engine] = 1
     
-    # Handling numericals 
-    scaled_nums = scale_numerical_input(age, mileage, sc)
+    scaled_nums = scale_numerical_input(year, mileage, sc)
     user_input["mileage"] = scaled_nums["mileage"]
     user_input["age"] = scaled_nums["age"]
     
@@ -39,9 +41,9 @@ def transform_raw_input_to_df(brand, model, engine, age, mileage, df, sc):
 
 
 
-def scale_numerical_input(age, mileage, scaler):
+def scale_numerical_input(year, mileage, scaler):
     user_input = {
-        "age" : age,
+        "age" : 2023-year,
         "mileage" : mileage/1000
     }
     
@@ -49,17 +51,18 @@ def scale_numerical_input(age, mileage, scaler):
     input_df_scaled = pd.DataFrame(scaler.transform(input_df), columns=["age", "mileage"])
     res = input_df_scaled.to_numpy()
     user_input["age"], user_input["mileage"] = res[0][0], res[0][1]
+    
     return user_input
     
     
-def init_model(weights, model_class):
-    input_size = 972
+def initialize_model():
+    input_size = 973
     hidden_size = 128
     output_size = 1  
-    model_eval = model_class(input_size, hidden_size, output_size)
-    state_dict = torch.load(weights)
-    model_eval.load_state_dict(state_dict)
-    return model_eval
+    model = NeuralNetwork(input_size, hidden_size, output_size)
+    state_dict = torch.load('weights/weights_2.pth')
+    model.load_state_dict(state_dict)
+    return model
 
 # data = transform_raw_input_to_df("Opel", "Insignia", "2.0D", 13, 239000, df, scaler)
 # with torch.no_grad():
