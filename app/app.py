@@ -1,8 +1,6 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, url_for
 import joblib
-import pandas as pd
 import torch 
-import torch.nn as nn
 from utils.model_utils import transform_raw_input_to_df, initialize_model
 
 models_brands = joblib.load('utils/models.joblib')

@@ -3,7 +3,6 @@ import torch
 import torch.nn as nn
 import joblib
 
-data = pd.read_csv('data/cleaned_data.csv')
 scaler = joblib.load('utils/scaler.save')
     
 class NeuralNetwork(nn.Module):
@@ -24,21 +23,19 @@ class NeuralNetwork(nn.Module):
         return x
     
     
-def transform_raw_input_to_df(brand, model, engine, year, mileage, sc=scaler, df=data):
-    user_input = df.iloc[0].copy()
-    user_input.loc[:] = 0
-    user_input.drop('price', inplace=True)
+def transform_raw_input_to_df(brand, model, engine, year, mileage, sc=scaler):
+    features = pd.read_pickle('utils/sample.pkl')
+    features.drop('price', inplace=True)
     
-    user_input['brand_' + brand] = 1
-    user_input['model_' + model] = 1
-    user_input['engine_' + engine] = 1
+    features['brand_' + brand] = 1
+    features['model_' + model] = 1
+    features['engine_' + engine] = 1
     
     scaled_nums = scale_numerical_input(year, mileage, sc)
-    user_input["mileage"] = scaled_nums["mileage"]
-    user_input["age"] = scaled_nums["age"]
+    features["mileage"] = scaled_nums["mileage"]
+    features["age"] = scaled_nums["age"]
     
-    return user_input
-
+    return features
 
 
 def scale_numerical_input(year, mileage, scaler):
@@ -64,7 +61,3 @@ def initialize_model():
     model.load_state_dict(state_dict)
     return model
 
-# data = transform_raw_input_to_df("Opel", "Insignia", "2.0D", 13, 239000, df, scaler)
-# with torch.no_grad():
-#     inputs = torch.tensor(data, dtype=torch.float32)
-#     predictions = model.eval(inputs).numpy()
