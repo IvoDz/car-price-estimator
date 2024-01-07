@@ -11,20 +11,36 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    """
+    Navigate to homepage.
+    """
     brands = list(models_brands.keys())
     return render_template('index.html', brands=brands, engines=engines)
 
 @app.route('/get_models')
 def get_all_models():
+    """
+    Gets all car models and brands from the dataset in JSON format.
+    """
     return jsonify(models_brands)
 
 @app.route('/get_models/<brand>')
-def get_models(brand):
+def get_models(brand:str):
+    """
+    Gets all car models for given car brand in JSON format.
+
+    Args:
+        brand (str): Car brand
+    """
     models = models_brands.get(brand, [])
     return jsonify(models)
 
 @app.route('/prediction', methods=['POST'])
 def submit_form():
+    """
+    Retrieves form data, formats it accordingly and passes it to the model, that makes prediction based on the input.
+    Renders the template that displays the prediction.
+    """
     brand = request.form['brand']
     car_model = request.form['model']
     engine = request.form['engine']

@@ -4,7 +4,7 @@ import torch.nn as nn
 import joblib
 
 scaler = joblib.load('utils/scaler.save')
-    
+
 class NeuralNetwork(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super(NeuralNetwork, self).__init__()
@@ -23,7 +23,21 @@ class NeuralNetwork(nn.Module):
         return x
     
     
-def transform_raw_input_to_df(brand, model, engine, year, mileage, sc=scaler):
+def transform_raw_input_to_df(brand:str, model:str, engine:str, year:int, mileage:int, sc=scaler) -> pd.DataFrame:
+    """
+    Given a user input, transform it so that it matches the column format the model was trained on.
+
+    Args:
+        brand (str): Car brand
+        model (str): Car model
+        engine (str): Type of engine
+        year (int): Car year
+        mileage (int): Car mileage (km)
+        sc (MinMaxScaler, optional): Scaler used during preprocessing 
+
+    Returns:
+        pd.DataFrame: Correctly formatted user input, that can be used to make predictions
+    """
     features = pd.read_pickle('utils/sample.pkl')
     features.drop('price', inplace=True)
     
@@ -38,7 +52,19 @@ def transform_raw_input_to_df(brand, model, engine, year, mileage, sc=scaler):
     return features
 
 
-def scale_numerical_input(year, mileage, scaler):
+def scale_numerical_input(year:int, mileage:int, scaler) -> dict:
+    """
+    Based on the provided scaler, scales the numerical features - year and mileage.
+
+    Args:
+        year (int): Year
+        mileage (int): Mileage (km)
+        scaler (MinMaxScaler):  Scaler used during preprocessing 
+
+    Returns:
+        dict: Dictionary where keys "age" and "mileage" correspond to scaled features.
+        
+    """
     user_input = {
         "age" : 2023-year,
         "mileage" : mileage/1000
@@ -52,12 +78,17 @@ def scale_numerical_input(year, mileage, scaler):
     return user_input
     
     
-def initialize_model():
+def initialize_model() -> nn.Module:
+    """
+    Use hardcoded parameters to initialize PyTorch model.
+
+    Returns:
+        nn.Module: Returns model object 
+    """
     input_size = 973
     hidden_size = 128
     output_size = 1  
     model = NeuralNetwork(input_size, hidden_size, output_size)
-    state_dict = torch.load('weights/weights_2.pth')
+    state_dict = torch.load('weights/model.0.0.3.pth')
     model.load_state_dict(state_dict)
     return model
-

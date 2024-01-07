@@ -1,3 +1,7 @@
+"""
+Script for saving data that will be populating the "Model" and "Brand" dropouts in web UI -- all unique models and brands found in dataset.
+"""
+
 import joblib
 import pandas as pd
 
