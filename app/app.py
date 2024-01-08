@@ -54,7 +54,7 @@ def submit_form():
         predictions = model(inputs).numpy()
         print(predictions)
 
-    return render_template('prediction.html', brand=brand, model=car_model, engine=engine, year=year, mileage=mileage, predictions=predictions[0])  
+    return render_template('prediction.html', brand=brand, model=car_model, engine=engine, year=year, mileage=mileage, predictions=int(predictions[0]))  
 
 
 

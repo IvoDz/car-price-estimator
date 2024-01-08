@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Car Selection</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function(){
@@ -19,35 +20,56 @@
     </script>
 </head>
 <body>
-    <form method="POST" action="/prediction">
-        <label for="brand">Brand:</label>
-        <select id="brand" name="brand" required>
-            <option value="">Select a Brand</option>
-            {% for brand in brands %}
-                <option value="{{ brand }}">{{ brand }}</option>
-            {% endfor %}
-        </select>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center my-4">How much is your car worth?</h1>
+                <h2 class="text-center my-4">Estimate Your car price with this tool!</h2>
+                <form method="POST" action="/prediction" class="needs-validation">
+                    
+                    <div class="form-group">
+                        <label for="brand">Brand:</label>
+                        <select id="brand" name="brand" class="form-control" required>
+                            <option value="">Select a Brand</option>
+                            {% for brand in brands %}
+                                <option value="{{ brand }}">{{ brand }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-        <label for="model">Model:</label>
-        <select id="model" name="model" required>
-            <option value="">Select a brand first!</option>
-        </select>
+                    <div class="form-group">
+                        <label for="model">Model:</label>
+                        <select id="model" name="model" class="form-control" required>
+                            <option value="">Select a brand first!</option>
+                        </select>
+                    </div>
 
-        <label for="engine">Engine:</label>
-        <select id="engine" name="engine" required>
-            <option value="">Select an Engine</option>
-            {% for engine in engines %}
-                <option value="{{ engine }}">{{ engine }}</option>
-            {% endfor %}
-        </select>
+                    <div class="form-group">
+                        <label for="engine">Engine:</label>
+                        <select id="engine" name="engine" class="form-control" required>
+                            <option value="">Select an Engine</option>
+                            {% for engine in engines %}
+                                <option value="{{ engine }}">{{ engine }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-        <label for="year">Year:</label>
-        <input type="number" id="year" name="year" min="1900" max="2023" required>
+                    <div class="form-group">
+                        <label for="year">Year:</label>
+                        <input type="number" id="year" name="year" class="form-control" min="1900" max="2023" required>
+                    </div>
 
-        <label for="mileage">Mileage:</label>
-        <input type="number" id="mileage" name="mileage" min="0" max="1500000" required> 
-        
-        <input type="submit" value="Predict!">
-    </form>
+                    <div class="form-group">
+                        <label for="mileage">Mileage:</label>
+                        <input type="number" id="mileage" name="mileage" class="form-control" min="0" max="1500000" required> 
+                    </div>
+                    
+                    <div class="text-center">
+                        <input type="submit" value="Predict!" class="btn btn-success">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

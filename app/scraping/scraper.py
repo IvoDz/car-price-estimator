@@ -9,8 +9,8 @@ from typing import List, Dict
 class ListingScraper:
     def __init__(self):
         self.CATEGORY_URL = "https://www.ss.lv/lv/transport/cars/"
-        self.driver = webdriver.Chrome()
         self.all_listing_data = []
+        self.driver = webdriver.Chrome()
         
     def get_category_data(self) -> List[Dict]:
         """
@@ -18,14 +18,13 @@ class ListingScraper:
         Returns a list of dictionaries, each containing category (brand) name,
         url for that category and amount of listings.
         """
-        self.driver.get(self.CATEGORY_URL_URL)
+        self.driver.get(self.CATEGORY_URL)
         wait = WebDriverWait(self.driver, 10)
 
         h4_elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "h4.category")))
 
         categories = []
-        cat_cnt = 0 
-
+        
         for h4 in h4_elements:    
             a_tag = h4.find_element(By.CSS_SELECTOR, 'a.a_category')
             href = a_tag.get_attribute('href')
@@ -41,8 +40,9 @@ class ListingScraper:
                 "count": count
             })
             
-            cat_cnt += 1
-            if cat_cnt > 40: break
+            # Last one that is needed
+            if category_name == "Vaz":
+                break
         
         return categories
             

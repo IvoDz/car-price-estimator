@@ -4,19 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prediction</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    Brand : {{ brand }}
-    Model : {{ model }}
-    Year : {{ year }}
-    Mileage : {{ mileage }}
-    Engine : {{ engine }}
-    Estimated price : {{ predictions }}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Estimated price</h1>
 
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text text-center">
+                    <strong>Brand:</strong> {{ brand }}<br>
+                    <strong>Model:</strong> {{ model }}<br>
+                    <strong>Year:</strong> {{ year }}<br>
+                    <strong>Mileage:</strong> {{ mileage }} km<br>
+                    <strong>Engine:</strong> {{ engine }}
+                </p>
+                <strong><h2 class="text-center my-3">± €{{ predictions }}</h2></strong>
 
-    <form action="{{ url_for('index') }}">
-    <input type="submit" value="Predict again!">
-
-
+                <div class="text-center">
+                    <form action="{{ url_for('index') }}">
+                        <input type="submit" value="Predict again!" class="btn btn-success">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
