@@ -1,5 +1,5 @@
 """
-Script for scraping all car listing from the ss.lv portal and writing them row by row to csv file.
+Script for scraping all car listings from the ss.lv portal and writing them row by row to csv file.
 """
 
 from scraper import ListingScraper
