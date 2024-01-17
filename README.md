@@ -1,12 +1,22 @@
 # Tool for Estimating the Price of Used Cars
 
-To use:
+To use locally:
  
-    1. git clone https://github.com/IvoDz/car-price-estimator.git
-    2. cd car-price-estimator/app
-    3. (Optional, but recommended) python3 -m venv venv
-    4. pip install -r requirements.txt
-    5. flask run
+1.Clone the repo
+
+    git clone https://github.com/IvoDz/car-price-estimator.git
+2.cd into the working directory
+    
+    cd car-price-estimator/app    
+3.(optional) Create virtual environment
+
+    python3 -m venv venv
+4.Install dependencies
+
+    pip install -r requirements.txt
+5.Run the server
+
+    flask run
 
 You can now access the app at port 5000 (localhost:5000).
 
@@ -29,7 +39,9 @@ See both examples below:
 e.g.
 
     curl "http://localhost:5000/prediction?brand=BMW&model=X6&engine=1.6D&year=2022&mileage=100000"
+Get prediction as JSON
+
     {"brand":"BMW","engine":"1.6D","mileage":100000,"model":"X6","predicted_price":"43448","year":2022}.
 
 
-The model was trained on a car listing dataset created by me. The dataset and a sample notebook can be found [here](https://www.kaggle.com/datasets/ivodzalbs/car-price-data-latvia/data).
+### The model was trained on a car listing dataset created by me. The dataset and a sample notebook can be found [here](https://www.kaggle.com/datasets/ivodzalbs/car-price-data-latvia/data).
