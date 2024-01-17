@@ -1,5 +1,4 @@
 # Tool for Estimating the Price of Used Cars
-## Quickly Approximate the Price of Any Car with This Tool!
 
 To use:
  
