@@ -1,6 +1,8 @@
 # Tool for Estimating the Price of Used Cars
 
-To use locally:
+## The model was trained on a car listing dataset created by me. The dataset and a sample notebook can be found [here](https://www.kaggle.com/datasets/ivodzalbs/car-price-data-latvia/data).
+
+### To use locally:
  
 1.Clone the repo
 
@@ -42,6 +44,3 @@ e.g.
 Get prediction as JSON
 
     {"brand":"BMW","engine":"1.6D","mileage":100000,"model":"X6","predicted_price":"43448","year":2022}.
-
-
-### The model was trained on a car listing dataset created by me. The dataset and a sample notebook can be found [here](https://www.kaggle.com/datasets/ivodzalbs/car-price-data-latvia/data).
