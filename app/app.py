@@ -42,6 +42,8 @@ def predict():
     """
     Retrieves form data, formats it accordingly and passes it to the model, that makes prediction based on the input.
     Renders the template that displays the prediction.
+    "POST" -- Gets form data and predicts based on that
+    "GET" -- Gets parameters from query and predicts accordingly 
     """
     if request.method == 'POST':
         brand = request.form['brand']
@@ -49,6 +51,7 @@ def predict():
         engine = request.form['engine']
         year = int(request.form['year'])
         mileage = int(request.form['mileage'])
+        
     elif request.method == 'GET':
         brand = request.args.get('brand', type=str)
         car_model = request.args.get('model', type=str)
@@ -56,7 +59,7 @@ def predict():
         year = request.args.get('year', type=int, default=0)
         mileage = request.args.get('mileage', type=int, default=0)
 
-    if not all([brand, car_model, engine, year, mileage]):
+    if not all([brand, car_model, engine, year, mileage>=0]):
         abort(400, description="Missing or incorrect parameters")
 
     sample = transform_raw_input_to_df(brand, car_model, engine, year, mileage)
