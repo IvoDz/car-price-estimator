@@ -41,6 +41,6 @@ See both examples below:
 e.g.
 
     curl "http://localhost:5000/prediction?brand=BMW&model=X6&engine=1.6D&year=2022&mileage=100000"
-Get prediction as JSON
+Get prediction as JSON:
 
-    {"brand":"BMW","engine":"1.6D","mileage":100000,"model":"X6","predicted_price":"43448","year":2022}.
+    {...,"predicted_price":"43448",...}.
